@@ -77,13 +77,22 @@ For running the azure connector, you can create your own docker image. Create yo
 
 ## Upload the connector file through the API
 
-### Write you KStream application
+## Implement you KStream application
 
-### Build KStream Docker Image - insert valid Azure image registry here
-$ docker build -t image-registry/your-project-id/kstream-app:1.0
+- Add necessary code and configuration to [KStream Application Class](src/main/java/com/epam/bd201/KStreamsApplication.java)
 
-### Push KStream image to Container Registry
-$ docker push image-registry/your-project-id/kstream-app:1.0
+- Build [KStream Docker Image](Dockerfile) - insert valid Azure image registry here
+  ```cmd
+  $ docker build -t image-registry/your-project-id/kstream-app:1.0
+  ```
 
-### Run you KStream app container in the K8s kluster alongside with Kafka Connect
-$ kubectl create -f kstream-app.yaml
+- Push KStream image to Container Registry
+  ```cmd
+  $ docker push image-registry/your-project-id/kstream-app:1.0
+  ```
+
+- Run you KStream app container in the K8s kluster alongside with Kafka Connect. Don't forger to update [Kubernetes deployment](kstream-app.yaml)
+  with valid registry for your image
+  ```cmd
+  $ kubectl create -f kstream-app.yaml
+  ```

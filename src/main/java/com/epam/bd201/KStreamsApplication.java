@@ -20,20 +20,20 @@ public class KStreamsApplication {
         props.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, "INSERT_YOUR_BOOTSTRAP_IP:PORT");
         props.put(StreamsConfig.DEFAULT_KEY_SERDE_CLASS_CONFIG, "INSERT_YOUR_KEY_SERDE_CLASS_HERE");
         props.put(StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_CONFIG, "INSERT_YOUR_VALUE_SERDE_CLASS_HERE");
-
         //If needed
         props.put("schema.registry.url", "INSERT_YOUR_SCHEMA_REGISTRY_IP:PORT");
 
-        String input_topic_name = "";
-        String output_topic_name = "";
+        final String INPUT_TOPIC_NAME = "";
+        final String OUTPUT_TOPIC_NAME = "";
+
         final StreamsBuilder builder = new StreamsBuilder();
 
-        final KStream<String, String> input_records = builder.stream(input_topic_name, Consumed.with(Serdes.String(), Serdes.String()));
+        final KStream<String, String> input_records = builder.stream(INPUT_TOPIC_NAME, Consumed.with(Serdes.String(), Serdes.String()));
 
         //Transform your records here
         //input_records.map();
 
-        input_records.to(output_topic_name);
+        input_records.to(OUTPUT_TOPIC_NAME);
 
         final Topology topology = builder.build();
         System.out.println(topology.describe());
