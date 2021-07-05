@@ -81,6 +81,11 @@ For running the azure connector, you can create your own docker image. Create yo
 
 - Add necessary code and configuration to [KStream Application Class](src/main/java/com/epam/bd201/KStreamsApplication.java)
 
+- Build KStream application jar
+  ```cmd
+  $ mvn package
+  ```
+
 - Build [KStream Docker Image](Dockerfile) - insert valid Azure image registry here
   ```cmd
   $ docker build -t image-registry/your-project-id/kstream-app:1.0
