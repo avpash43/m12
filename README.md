@@ -1,5 +1,14 @@
 # Kafka connect in Kubernetes
 
+## Deploy Azure resources using [Terraform](https://www.terraform.io/) (version >= 0.15 should be installed on your system)
+```
+terraform init
+terraform plan -out terraform.plan
+terraform apply terraform.plan
+....
+terraform destroy
+```
+
 ## Install Confluent Hub Client
 
 You can find the installation manual [here](https://docs.confluent.io/home/connect/confluent-hub/client.html)
