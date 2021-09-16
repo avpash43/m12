@@ -135,11 +135,13 @@ Expdia_ext topic records:
 ![Alt text](screenshots/ExpediaExtTopic.png?raw=true "Title")
 
 Stream & Table:
-
-* create stream categories_stream (category VARCHAR, hotel_id BIGINT) with (KAFKA_TOPIC='expedia_ext', VALUE_FORMAT='JSON');
 * SET 'auto.offset.reset' = 'earliest';
 * SET 'cache.max.bytes.buffering' = '0';
+* create stream categories_stream (category VARCHAR, hotel_id BIGINT) with (KAFKA_TOPIC='expedia_ext', VALUE_FORMAT='JSON');
+* create table hotels_by_category with (PARTITIONS = 1) AS select category, COUNT(hotel_id) AS hotels_count from categories_stream group by category emit changes;
+* create table hotels_distinct_by_category with (PARTITIONS = 1) AS select category, COUNT_DISTINCT(hotel_id) AS hotels_count from categories_stream group by category emit changes;
+* kubectl exec --stdin --tty ksqldb-0 -- /bin/bash
+
+![Alt text](screenshots/KsqldbFlow.png?raw=true "Title")
 
 ![Alt text](screenshots/DataMartSelect.png?raw=true "Title")
-
-![Alt text](screenshots/DataMartCreateTable.png?raw=true "Title")
