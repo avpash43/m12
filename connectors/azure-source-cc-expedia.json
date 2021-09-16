@@ -1,4 +1,17 @@
 {
-  "name": "expedia",
-  "_comment": "Modify configuration for your needs"
+  "name" : "expedia",
+  "config" : {
+    "connector.class" : "io.confluent.connect.azure.blob.storage.AzureBlobStorageSourceConnector",
+    "partitioner.class" : "io.confluent.connect.storage.partitioner.DefaultPartitioner",
+    "tasks.max" : "1",
+    "azblob.account.name" : "bd201stacc",
+    "azblob.account.key" : "L6X661FhSG78rVrWUyNOTzeXyzfHzQVZF9bX0ukUS4U90VQdLTeuEVWUFiok8l4MAXJGMLYIolTT1R1rjuNtrA==",
+    "azblob.container.name" : "m12kafkastreams",
+    "azblob.retry.retries": "3",
+    "format.class" : "io.confluent.connect.azure.blob.storage.format.avro.AvroFormat",
+    "transforms": "TimestampMask",
+    "transforms.TimestampMask.type": "org.apache.kafka.connect.transforms.MaskField$Value",
+    "transforms.TimestampMask.fields": "date_time",
+    "transforms.TimestampMask.replacement": "0000-00-00 00:00:00"
+  }
 }

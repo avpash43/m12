@@ -16,8 +16,14 @@ You can find the installation manual [here](https://docs.confluent.io/home/conne
 ## Create a custom docker image
 
 For running the azure connector, you can create your own docker image. Create your azure connector image and build it.
+Run commands 'docker build -t avpash43/my-azure-connector12:latest -f connectors/Dockerfile .'  &&  'docker push avpash43/my-azure-connector12:latest'
+
+![Alt text](screenshots/DockerHub.png?raw=true "Title")
 
 ## Launch Confluent for Kubernetes
+
+* az login
+* az aks get-credentials --name aks-sparkbasic-westeurope  --resource-group rg-sparkbasic-westeurope
 
 ### Create a namespace
 
@@ -68,6 +74,10 @@ For running the azure connector, you can create your own docker image. Create yo
   kubectl get pods -o wide 
   ```
 
+Pods:
+
+![Alt text](screenshots/Pods.png?raw=true "Title")
+
 ### View Control Center
 
 - Set up port forwarding to Control Center web UI from local machine:
@@ -82,9 +92,17 @@ For running the azure connector, you can create your own docker image. Create yo
 
 - The topic should have at least 3 partitions because the azure blob storage has 3 partitions. Name the new topic: "expedia".
 
+![Alt text](screenshots/NewTopic.png?raw=true "Title")
+
 ## Prepare the azure connector configuration
 
 ## Upload the connector file through the API
+
+![Alt text](screenshots/UploadConnectorConfig.png?raw=true "Title")
+
+![Alt text](screenshots/ConnectorRunningTask.png?raw=true "Title")
+
+![Alt text](screenshots/ExpediaTopicRecords.png?raw=true "Title")
 
 ## Implement you KStream application
 
@@ -97,12 +115,13 @@ For running the azure connector, you can create your own docker image. Create yo
 
 - Build [KStream Docker Image](Dockerfile) - insert valid Azure image registry here
   ```cmd
-  $ docker build -t image-registry/your-project-id/kstream-app:1.0
+  $ docker build -t avpash43.azurecr.io/kstream-app:1.0 .
   ```
 
 - Push KStream image to Container Registry
   ```cmd
-  $ docker push image-registry/your-project-id/kstream-app:1.0
+  * az acr login -n avpash43
+  * $ docker push avpash43.azurecr.io/kstream-app:1.0
   ```
 
 - Run you KStream app container in the K8s kluster alongside with Kafka Connect. Don't forger to update [Kubernetes deployment](kstream-app.yaml)
@@ -110,3 +129,17 @@ For running the azure connector, you can create your own docker image. Create yo
   ```cmd
   $ kubectl create -f kstream-app.yaml
   ```
+
+Expdia_ext topic records:
+
+![Alt text](screenshots/ExpediaExtTopic.png?raw=true "Title")
+
+Stream & Table:
+
+* create stream categories_stream (category VARCHAR, hotel_id BIGINT) with (KAFKA_TOPIC='expedia_ext', VALUE_FORMAT='JSON');
+* SET 'auto.offset.reset' = 'earliest';
+* SET 'cache.max.bytes.buffering' = '0';
+
+![Alt text](screenshots/DataMartSelect.png?raw=true "Title")
+
+![Alt text](screenshots/DataMartCreateTable.png?raw=true "Title")

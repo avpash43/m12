@@ -14,4 +14,5 @@ spec:
     spec:
       containers:
         - name: kstream-app
-          image: #insert-your-image-registry-address-here
+          image: avpash43.azurecr.io/kstream-app:1.0
+          imagePullPolicy: "Always"

@@ -1,5 +1,9 @@
 terraform {
   backend "azurerm" {
+      resource_group_name  = "terraform"
+      storage_account_name = "terraform43"
+      container_name       = "container01"
+      key                  = "terraform.tfstate"
   }
 }
 
@@ -7,6 +11,10 @@ provider "azurerm" {
   version = "~> 2.62.0"
   features {
   }
+  subscription_id   = "3d13b506-b0aa-4fb7-a9ee-886d2b2a5700"
+  tenant_id         = "612c4e2c-a506-4b9b-b5b9-b08d23391de3"
+  client_id         = "b09da5d6-f3f8-47d8-8623-4efb50fc3865"
+  client_secret     = "r6S9Qqd.bpOo5hR6LfEsB8_HAg_xks1ppk"
 }
 
 data "azurerm_client_config" "current" {}
@@ -95,4 +103,5 @@ output "client_certificate" {
 
 output "kube_config" {
   value = azurerm_kubernetes_cluster.bdcc.kube_config_raw
+  sensitive = true
 }
